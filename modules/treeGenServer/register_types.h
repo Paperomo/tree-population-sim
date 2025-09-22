@@ -1,0 +1,4 @@
+#include "modules/register_module_types.h"
+
+void initialize_treeGenServer_module(ModuleInitializationLevel p_level);
+void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level);
