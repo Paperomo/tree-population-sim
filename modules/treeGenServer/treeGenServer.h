@@ -5,6 +5,10 @@
 #include "core/os/mutex.h"
 #include "core/templates/list.h"
 #include "core/templates/rid.h"
+#include "servers/rendering_server.h"
+#include "core/config/engine.h"
+//#include "thirdparty"
+//#include "thirdparty/vulkan/include/vulkan.h"
 //#include "core/templates/set.h"
 #include "core/variant/variant.h"
 

@@ -9,7 +9,7 @@ static treeGenServer *tree_Gen_Server = NULL;
 
 
 void initialize_treeGenServer_module(ModuleInitializationLevel p_level){
-        if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
+    if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
         return;
     }
     tree_Gen_Server = memnew(treeGenServer);

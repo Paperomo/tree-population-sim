@@ -2,7 +2,7 @@
 
 #include "core/variant/dictionary.h"
 #include "core/os/os.h"
-
+//now we just need to store the data and figure out how to modify it.
 //#include "prime_225.h"
 
 void treeGenServer::thread_func(void *p_udata){
@@ -40,8 +40,12 @@ treeGenServer *treeGenServer::get_singleton() {
     return singleton;
 }
 
-void treeGenServer::core_treegen_loop(){
+void treeGenServer::core_treegen_loop()
+{
+    
+    print_line("are you here?");
     singleton->counter++;
+    
     // for (Set<RID>::Element *e = buses.front(); e; e = e->next()) {
     //     auto bus = bus_owner.getornull(e->get());
 
@@ -146,8 +150,16 @@ void treeGenServer::connect_signals() {
 
 }
 
-Variant treeGenServer::simple_output_test() {
-	return Variant(counter);
+Variant treeGenServer::simple_output_test()
+{
+    if (get_singleton())
+    {
+        return Variant(get_singleton()->counter);
+    }
+    else
+    {
+        return Variant("Error");
+    }
 }
 
 int treeGenServer::get_something() const {
@@ -160,6 +172,7 @@ treeGenServer::treeGenServer(){
         print_error("not supposed to be here");
         return;
     }
+    print_line("This is init");
 	//for some reason all the singleton references I've seen do not check if one has been instantiated already? this seems not safe.
     singleton = this;
 }
