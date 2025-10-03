@@ -1,6 +1,7 @@
 #include "register_types.h"
 
 #include "core/object/class_db.h"
+#include "core/os/os.h"
 #include "core/config/engine.h"
 
 #include "treeGenServer.h"
@@ -12,6 +13,7 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level){
     if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
         return;
     }
+    //print_line("init was called");
     tree_Gen_Server = memnew(treeGenServer);
     tree_Gen_Server->init();
     //_tree_Gen_Server = memnew(_treeGenServer);
@@ -20,11 +22,15 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level){
 }
 
 void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level){
-        if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
+    
+    if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
         return;
     }
-    if (tree_Gen_Server) {
+    if (tree_Gen_Server)
+    {
         tree_Gen_Server->finish();
+        Engine::get_singleton()->remove_singleton("treeTestServer");
         memdelete(tree_Gen_Server);
+        tree_Gen_Server=nullptr;
     }
 }

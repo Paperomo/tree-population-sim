@@ -3,27 +3,34 @@
 #include "core/variant/dictionary.h"
 #include "core/os/os.h"
 //now we just need to store the data and figure out how to modify it.
-//#include "prime_225.h"
 
 void treeGenServer::thread_func(void *p_udata){
-
+    print_line("am i here TOOOOO");
     treeGenServer *ac = (treeGenServer *) p_udata;
     uint64_t msdelay = 1000;
-
-    while (!ac->exit_thread){
-        
+    while (!ac->exit_thread)
+    {
+        //print_line("got here");
+            //OS::get_singleton()->get_time
             ac->lock();
             ac->core_treegen_loop();
             //is this constantly running
             ///++counter;
             ac->unlock();
-        
-        OS::get_singleton()->delay_usec(msdelay * 1000);
+        //OS::get_singleton()->
+        //OS::get_singleton()->delay_usec(msdelay * 1000);
     }
 }
 
 Error treeGenServer::init(){
-    if(singleton != this){return FAILED;}
+    if(singleton != this)
+    {
+        //print_line("HOI WTH");
+        //so this never happens for some reason.
+        //const int hw_threads_hint = Thread::get_hardware_concurrency();
+        return FAILED;
+    }
+    exit_thread = false;
     thread_exited = false;
     counter = 0;
     mutex = memnew(Mutex); //well god knows whats gone wrong here//
@@ -37,15 +44,16 @@ Error treeGenServer::init(){
 treeGenServer *treeGenServer::singleton = NULL;
 
 treeGenServer *treeGenServer::get_singleton() {
-    return singleton;
+    if(singleton == nullptr)
+        print_error("err");
+    return treeGenServer::singleton;
 }
 
 void treeGenServer::core_treegen_loop()
 {
-    
-    print_line("are you here?");
-    singleton->counter++;
-    
+    //print_line("loop singleton");
+    //singleton->counter++;
+    //okay so that works.
     // for (Set<RID>::Element *e = buses.front(); e; e = e->next()) {
     //     auto bus = bus_owner.getornull(e->get());
 
@@ -88,21 +96,21 @@ void treeGenServer::lock() {
 //}
 //
 void treeGenServer::finish(){
-    if (!thread) {
-        return;
-    }
-    
-    exit_thread = true;
-    thread->wait_to_finish();
+    if (thread)
+    {
+        exit_thread = true;
+        thread->wait_to_finish();
     //Thread::wait_to_finish(thread);
-
-    memdelete(thread);
-
-    if (mutex) {
+        memdelete(thread);
+        thread = nullptr;
+    }
+    if (mutex)
+    {
         memdelete(mutex);
+        mutex = nullptr;
     }
 
-    thread = NULL;
+
 }
 
 // RID treeGenServer::create_bus() {
@@ -146,15 +154,16 @@ void treeGenServer::_bind_methods() {
     ClassDB::bind_method(D_METHOD("simple_output_test"), &treeGenServer::simple_output_test);
 }
 
-void treeGenServer::connect_signals() {
+void treeGenServer::connect_signals()
+{
 
 }
 
 Variant treeGenServer::simple_output_test()
 {
-    if (get_singleton())
+    if (treeGenServer::get_singleton())
     {
-        return Variant(get_singleton()->counter);
+        return Variant(treeGenServer::get_singleton()->counter);
     }
     else
     {
@@ -172,7 +181,7 @@ treeGenServer::treeGenServer(){
         print_error("not supposed to be here");
         return;
     }
-    print_line("This is init");
+    //print_line("This is init");
 	//for some reason all the singleton references I've seen do not check if one has been instantiated already? this seems not safe.
     singleton = this;
 }
