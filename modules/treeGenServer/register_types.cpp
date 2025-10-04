@@ -9,21 +9,43 @@
 static treeGenServer *tree_Gen_Server = NULL;
 
 
-void initialize_treeGenServer_module(ModuleInitializationLevel p_level){
-    if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
+void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
+{
+    switch(p_level)
+    {
+        case MODULE_INITIALIZATION_LEVEL_CORE:
+            break;
+        case MODULE_INITIALIZATION_LEVEL_SERVERS:
+            break;
+        case MODULE_INITIALIZATION_LEVEL_SCENE:
+            break;
+        case MODULE_INITIALIZATION_LEVEL_EDITOR:
+            break;
+        default:
+            break;
+    }
+	if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
         return;
     }
+    //if(just_seeing_if_it_exists) print_line("THIS IS REGISTERED");
     //print_line("init was called");
-    tree_Gen_Server = memnew(treeGenServer);
-    tree_Gen_Server->init();
-    //_tree_Gen_Server = memnew(_treeGenServer);
-    ClassDB::register_class<treeGenServer>();
-    Engine::get_singleton()->add_singleton(Engine::Singleton("treeTestServer", treeGenServer::get_singleton()));
+    //if(MODULE_INITIALIZATION_LEVEL_EDITOR){}
+    
+        tree_Gen_Server = memnew(treeGenServer);
+        tree_Gen_Server->init();
+        //_tree_Gen_Server = memnew(_treeGenServer);
+        ClassDB::register_class<treeGenServer>();
+        Engine::Singleton tTS_singleton = Engine::Singleton("treeTestServer", treeGenServer::get_singleton());
+        tTS_singleton.editor_only=true;
+        Engine::get_singleton()->add_singleton(tTS_singleton);
+    
+    
 }
 
 void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level){
     
-    if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
+    if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS)
+    {
         return;
     }
     if (tree_Gen_Server)

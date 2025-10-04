@@ -1,5 +1,5 @@
 #pragma once
-
+#include <atomic>
 #include "core/object/object.h"
 #include "core/os/thread.h"
 #include "core/os/mutex.h"
@@ -11,6 +11,15 @@
 //#include "thirdparty/vulkan/include/vulkan.h"
 //#include "core/templates/set.h"
 #include "core/variant/variant.h"
+namespace mel
+{
+    enum engine_state
+    {
+        PROJECT_SELECT,
+        EDITOR,
+        PLAY
+    };
+};
 
 class treeGenServer: public Object {
     GDCLASS(treeGenServer, Object);
@@ -23,17 +32,17 @@ class treeGenServer: public Object {
         mutable bool exit_thread;
         Thread *thread;
         Mutex *mutex;
-    
+        mel::engine_state which_environment;
     public:
         static treeGenServer *get_singleton();
         Error init();
         void lock();
         void unlock();
         void finish();
-
+        void notification_methods();
     protected:
         static void _bind_methods();
-    
+        void _notification(int p_what);
     private:
         uint64_t counter;
 

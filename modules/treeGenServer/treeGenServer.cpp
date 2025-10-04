@@ -2,23 +2,29 @@
 
 #include "core/variant/dictionary.h"
 #include "core/os/os.h"
-//now we just need to store the data and figure out how to modify it.
 
+//now we just need to store the data and figure out how to modify it.
+void treeGenServer::notification_methods() {
+    print_line("test");
+}
 void treeGenServer::thread_func(void *p_udata){
-    print_line("am i here TOOOOO");
+    //print_line(vformat("My name is %d.", (int)p_udata));
+    //vformat();
+    
     treeGenServer *ac = (treeGenServer *) p_udata;
     uint64_t msdelay = 1000;
+    //ac->connect();
     while (!ac->exit_thread)
     {
-        //print_line("got here");
-            //OS::get_singleton()->get_time
+        if(!Engine::get_singleton()->is_editor_hint())
+            continue;
             ac->lock();
             ac->core_treegen_loop();
-            //is this constantly running
-            ///++counter;
             ac->unlock();
-        //OS::get_singleton()->
-        //OS::get_singleton()->delay_usec(msdelay * 1000);
+    }
+    if(ac->exit_thread == true)
+    {
+        //print_line("hoi im temmi");
     }
 }
 
@@ -38,6 +44,7 @@ Error treeGenServer::init(){
     //adopting this from audio_stream_preview
     thread->start(treeGenServer::thread_func, this);
     //&Thread(treeGenServer::thread_func, this);//Thread::create();
+    //this->connect("enter_tree",callable_mp(this,&treeGenServer::notification_methods));
     return OK;
 }
 
@@ -51,8 +58,20 @@ treeGenServer *treeGenServer::get_singleton() {
 
 void treeGenServer::core_treegen_loop()
 {
+    // const Engine * tmpEditorPtr = Engine::get_singleton();
+    // tmpEditorPtr->is_editor_hint();
+    // tmpEditorPtr->is_embedded_in_editor();
+    // tmpEditorPtr->is_editor_hint();
     //print_line("loop singleton");
-    //singleton->counter++;
+    if (Engine::get_singleton()->is_editor_hint())
+    {
+        //print_line("loop singleton");
+        singleton->counter++;
+    }
+    else
+    {
+        //print_line("not_editor");
+    }
     //okay so that works.
     // for (Set<RID>::Element *e = buses.front(); e; e = e->next()) {
     //     auto bus = bus_owner.getornull(e->get());
@@ -101,6 +120,7 @@ void treeGenServer::finish(){
         exit_thread = true;
         thread->wait_to_finish();
     //Thread::wait_to_finish(thread);
+        //print_line("THIS IS REACHED");
         memdelete(thread);
         thread = nullptr;
     }
@@ -112,6 +132,8 @@ void treeGenServer::finish(){
 
 
 }
+
+
 
 // RID treeGenServer::create_bus() {
 //     lock();
@@ -152,11 +174,22 @@ void treeGenServer::finish(){
 void treeGenServer::_bind_methods() {
     //I dont think theres really anything to bind here yet.
     ClassDB::bind_method(D_METHOD("simple_output_test"), &treeGenServer::simple_output_test);
+    ClassDB::bind_method(D_METHOD("_node_entered_tree"), &treeGenServer::notification_methods);
+}
+
+void treeGenServer::_notification(int p_what)
+{
+    //Object::NOTIFICATION_POSTINITIALIZE
+    //print_line(vformat("%d %d", (int)this,p_what));
+    //this is kinda useless for now.
+    //print_line(p_what);
+    //what is the enum
+    
 }
 
 void treeGenServer::connect_signals()
 {
-
+    
 }
 
 Variant treeGenServer::simple_output_test()
@@ -171,7 +204,10 @@ Variant treeGenServer::simple_output_test()
     }
 }
 
-int treeGenServer::get_something() const {
+int treeGenServer::get_something() const
+{
+    //should lock and unlock
+    //int tmp_out = 0;''
 	return counter;
 }
 
