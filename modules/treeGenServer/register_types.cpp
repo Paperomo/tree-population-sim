@@ -16,6 +16,15 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
         case MODULE_INITIALIZATION_LEVEL_CORE:
             break;
         case MODULE_INITIALIZATION_LEVEL_SERVERS:
+            {
+                tree_Gen_Server = memnew(treeGenServer);
+                tree_Gen_Server->init();
+        //_tree_Gen_Server = memnew(_treeGenServer);
+                ClassDB::register_class<treeGenServer>();
+                Engine::Singleton tTS_singleton = Engine::Singleton("treeTestServer", treeGenServer::get_singleton());
+                tTS_singleton.editor_only=true;
+                Engine::get_singleton()->add_singleton(tTS_singleton);
+            }
             break;
         case MODULE_INITIALIZATION_LEVEL_SCENE:
             break;
@@ -31,13 +40,7 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
     //print_line("init was called");
     //if(MODULE_INITIALIZATION_LEVEL_EDITOR){}
     
-        tree_Gen_Server = memnew(treeGenServer);
-        tree_Gen_Server->init();
-        //_tree_Gen_Server = memnew(_treeGenServer);
-        ClassDB::register_class<treeGenServer>();
-        Engine::Singleton tTS_singleton = Engine::Singleton("treeTestServer", treeGenServer::get_singleton());
-        tTS_singleton.editor_only=true;
-        Engine::get_singleton()->add_singleton(tTS_singleton);
+
     
     
 }
