@@ -1,8 +1,8 @@
 #include "treeGenServer.h"
-
+#include "treeGenServerServerInteractions.h"
 #include "core/variant/dictionary.h"
 #include "core/os/os.h"
-
+treeGenServer *treeGenServer::singleton = NULL;
 //now we just need to store the data and figure out how to modify it.
 void treeGenServer::notification_methods() {
     print_line("test");
@@ -28,6 +28,11 @@ void treeGenServer::thread_func(void *p_udata){
     }
 }
 
+void treeGenServer::linkUp()
+{
+    get_singleton()->connect("enter_tree",callable_mp(get_singleton(),&treeGenServer::notification_methods));
+}
+
 Error treeGenServer::init(){
     if(singleton != this)
     {
@@ -44,11 +49,12 @@ Error treeGenServer::init(){
     //adopting this from audio_stream_preview
     thread->start(treeGenServer::thread_func, this);
     //&Thread(treeGenServer::thread_func, this);//Thread::create();
-    //this->connect("enter_tree",callable_mp(this,&treeGenServer::notification_methods));
+    //ADD_SIGNAL();
+    //
     return OK;
 }
 
-treeGenServer *treeGenServer::singleton = NULL;
+
 
 treeGenServer *treeGenServer::get_singleton() {
     if(singleton == nullptr)
@@ -66,6 +72,7 @@ void treeGenServer::core_treegen_loop()
     if (Engine::get_singleton()->is_editor_hint())
     {
         //print_line("loop singleton");
+        
         singleton->counter++;
     }
     else
@@ -173,6 +180,7 @@ void treeGenServer::finish(){
 
 void treeGenServer::_bind_methods() {
     //I dont think theres really anything to bind here yet.
+    
     ClassDB::bind_method(D_METHOD("simple_output_test"), &treeGenServer::simple_output_test);
     ClassDB::bind_method(D_METHOD("_node_entered_tree"), &treeGenServer::notification_methods);
 }
@@ -211,7 +219,7 @@ int treeGenServer::get_something() const
 	return counter;
 }
 
-treeGenServer::treeGenServer(){
+treeGenServer::treeGenServer():Object(){
     if(singleton)
     {
         print_error("not supposed to be here");
@@ -221,3 +229,19 @@ treeGenServer::treeGenServer(){
 	//for some reason all the singleton references I've seen do not check if one has been instantiated already? this seems not safe.
     singleton = this;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

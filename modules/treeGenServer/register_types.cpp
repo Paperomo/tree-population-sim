@@ -5,6 +5,9 @@
 #include "core/config/engine.h"
 
 #include "treeGenServer.h"
+#include "treeGenServerServerInteractions.h"
+#include "treeGenNode.h"
+#include "treeGenEditorPlugin.h"
 
 static treeGenServer *tree_Gen_Server = NULL;
 
@@ -19,7 +22,6 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
             {
                 tree_Gen_Server = memnew(treeGenServer);
                 tree_Gen_Server->init();
-        //_tree_Gen_Server = memnew(_treeGenServer);
                 ClassDB::register_class<treeGenServer>();
                 Engine::Singleton tTS_singleton = Engine::Singleton("treeTestServer", treeGenServer::get_singleton());
                 tTS_singleton.editor_only=true;
@@ -27,8 +29,11 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
             }
             break;
         case MODULE_INITIALIZATION_LEVEL_SCENE:
+            GDREGISTER_CLASS(treeGenServerServerInteractions);
+            GDREGISTER_CLASS(treeGenNode);
             break;
         case MODULE_INITIALIZATION_LEVEL_EDITOR:
+            EditorPlugins::add_by_type<treeGenEditorPlugin>();
             break;
         default:
             break;

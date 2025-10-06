@@ -1,15 +1,15 @@
+#ifndef TREE_GEN_SERVER_H
+#define TREE_GEN_SERVER_H
 #pragma once
 #include <atomic>
 #include "core/object/object.h"
+#include "scene/main/node.h"
 #include "core/os/thread.h"
 #include "core/os/mutex.h"
 #include "core/templates/list.h"
 #include "core/templates/rid.h"
 #include "servers/rendering_server.h"
 #include "core/config/engine.h"
-//#include "thirdparty"
-//#include "thirdparty/vulkan/include/vulkan.h"
-//#include "core/templates/set.h"
 #include "core/variant/variant.h"
 namespace mel
 {
@@ -21,19 +21,23 @@ namespace mel
     };
 };
 
+class treeGenServerServerInteractions;
+
 class treeGenServer: public Object {
     GDCLASS(treeGenServer, Object);
-
+    
     static treeGenServer* singleton;
     static void thread_func(void *p_udata);
 
     private:
+        static void linkUp();
         bool thread_exited;
         mutable bool exit_thread;
         Thread *thread;
         Mutex *mutex;
         mel::engine_state which_environment;
     public:
+        friend class treeGenServerServerInteractions;
         static treeGenServer *get_singleton();
         Error init();
         void lock();
@@ -61,3 +65,5 @@ class treeGenServer: public Object {
         int get_something() const;
         treeGenServer();
 };
+
+#endif
