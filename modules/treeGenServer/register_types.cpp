@@ -31,15 +31,13 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
         case MODULE_INITIALIZATION_LEVEL_SCENE:
             GDREGISTER_CLASS(treeGenServerServerInteractions);
             GDREGISTER_CLASS(treeGenNode);
+            //GDREGISTER_INTERNAL_CLASS()
             break;
         case MODULE_INITIALIZATION_LEVEL_EDITOR:
             EditorPlugins::add_by_type<treeGenEditorPlugin>();
             break;
         default:
             break;
-    }
-	if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS) {
-        return;
     }
     //if(just_seeing_if_it_exists) print_line("THIS IS REGISTERED");
     //print_line("init was called");
@@ -50,17 +48,40 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
     
 }
 
-void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level){
-    
+void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level)
+{
+    switch(p_level)
+    {
+        case MODULE_INITIALIZATION_LEVEL_CORE:
+            {//nameless scope just to facilitate working inside a switch case since switch cases dont allow defining stuff since they are jump tables which is understandable.
+                if (tree_Gen_Server)
+                {
+                    tree_Gen_Server->finish();
+                    Engine::get_singleton()->remove_singleton("treeTestServer");
+                    memdelete(tree_Gen_Server);
+                    tree_Gen_Server=nullptr;
+                }
+            }
+            break;
+        case MODULE_INITIALIZATION_LEVEL_SERVERS:
+            {
+            }
+            break;
+        case MODULE_INITIALIZATION_LEVEL_SCENE:
+            {
+            }
+            break;
+        case MODULE_INITIALIZATION_LEVEL_EDITOR:
+            {
+
+            }
+            break;
+        default:
+            break;
+    }
     if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS)
     {
         return;
     }
-    if (tree_Gen_Server)
-    {
-        tree_Gen_Server->finish();
-        Engine::get_singleton()->remove_singleton("treeTestServer");
-        memdelete(tree_Gen_Server);
-        tree_Gen_Server=nullptr;
-    }
+    
 }

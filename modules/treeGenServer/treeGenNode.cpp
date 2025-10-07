@@ -15,7 +15,7 @@ void treeGenNode::_notification(int p_what)
             if(count == 1)
             {
                 //reparent it else remake it?
-                
+
             }
             //this fires whenever reparented too wth
         break;
@@ -25,6 +25,11 @@ void treeGenNode::_notification(int p_what)
 
     };
     
+}
+
+void treeGenNode::_mesh_changed()
+{
+    print_line("hey there");
 }
 
 treeGenNode::treeGenNode():MeshInstance3D() {

@@ -11,6 +11,7 @@
 #include "servers/rendering_server.h"
 #include "core/config/engine.h"
 #include "core/variant/variant.h"
+//#include <vulkan/vulkan.h>
 namespace mel
 {
     enum engine_state
@@ -25,7 +26,7 @@ class treeGenServerServerInteractions;
 
 class treeGenServer: public Object {
     GDCLASS(treeGenServer, Object);
-    
+    //vkInstance;
     static treeGenServer* singleton;
     static void thread_func(void *p_udata);
 
@@ -49,7 +50,6 @@ class treeGenServer: public Object {
         void _notification(int p_what);
     private:
         uint64_t counter;
-
         //RID_Owner<InfiniteBus> bus_owner;
     //i have no idea where the rid is being defined.
         //Set<RID> buses;

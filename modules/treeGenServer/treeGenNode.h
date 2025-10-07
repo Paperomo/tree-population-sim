@@ -19,6 +19,7 @@ class treeGenNode: public MeshInstance3D
     protected:
         static void _bind_methods();
         void _notification(int p_what);
+        void _mesh_changed ();
     
     treeGenNode();
 
