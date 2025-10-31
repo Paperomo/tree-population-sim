@@ -2,4 +2,9 @@
 
 Import('env')
 
-env.add_source_files(env.modules_sources, "*.cpp") #adds all the cpp files into the build
+env_tgs = env.Clone()
+env_tgs.add_source_files(env.modules_sources, "*.cpp") #adds all the cpp files into the build
+#env_tgs.Append(CPPPATH=["libpath"])
+#env.Append(LIBPATH=[Dir('libpath').abspath])
+##print(Dir('libpath').abspath)
+#env.Append(LIBS=['temp']) # i have no fucking clue how to link libraries anymore.

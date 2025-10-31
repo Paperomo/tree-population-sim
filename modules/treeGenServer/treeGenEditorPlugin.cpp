@@ -3,7 +3,9 @@
 #include "editor/editor_data.h"
 #include "scene/gui/check_box.h"
 #include "treeGenNode.h"
-void treeGenEditorPlugin::_bind_methods() {
+void treeGenEditorPlugin::_bind_methods()
+{
+
 }
 
 void treeGenEditorPlugin::_notification(int p_what) {
@@ -12,11 +14,15 @@ void treeGenEditorPlugin::_notification(int p_what) {
         case NOTIFICATION_ENTER_TREE:
             //so this gets attached to the editor... why not just run the singleton here then lol
             ++count;
-            print_line("oohweeooyh");
+            //print_line("oohweeooyh");
             if(count == 1)
             {
                 if(!test_control)
+                {
                     test_control = memnew(CheckBox);
+                    print_line("count test_controls");
+                }
+                    
                 add_control_to_container(CONTAINER_SPATIAL_EDITOR_SIDE_LEFT,test_control);
                 test_control->set_visible(false);
                 /*
@@ -57,8 +63,10 @@ void treeGenEditorPlugin::_editor_has_selected()
     //print_line();
 }
 
-void treeGenEditorPlugin::edit(Object *p_object) {
-	treeGenNode* tmp = Object::cast_to<treeGenNode>(p_object);
+void treeGenEditorPlugin::edit(Object *p_object)
+{
+    //is there a point to this?
+    treeGenNode* tmp = Object::cast_to<treeGenNode>(p_object);
         if(selectionHandle->is_selected(Object::cast_to<Node>(p_object)))
         {
             if(tmp) print_line("edited");
@@ -69,6 +77,7 @@ void treeGenEditorPlugin::edit(Object *p_object) {
 
 bool treeGenEditorPlugin::handles(Object *p_object) const
 {
+    print_line("prompted Handles in tree Gen editor plugin");
     treeGenNode* tmp = Object::cast_to<treeGenNode>(p_object);
     if(tmp)
     {
@@ -104,6 +113,7 @@ void treeGenEditorPlugin::selected_notify()
 
 treeGenEditorPlugin::treeGenEditorPlugin()
 {
+    print_line("constructed treeGenEditorPlugin");
     auto tmp = EditorPlugin::get_editor_interface();
     selectionHandle = tmp->get_selection();
     if(!selectionHandle->is_connected("selection_changed",callable_mp(this,&treeGenEditorPlugin::_editor_has_selected)))
@@ -115,8 +125,27 @@ treeGenEditorPlugin::treeGenEditorPlugin()
 treeGenEditorPlugin::~treeGenEditorPlugin()
 {
     //not disconnecting for now
+    print_line("destroying Tree Gen Editor Plugin");
     if(test_control)
         memdelete(test_control);
     selectionHandle= nullptr;
     test_control=nullptr;
+}
+
+bool treeGenNodeInspectorProperties::can_handle(Object *p_object)
+{
+    //print_line("hoi");
+    treeGenNode* tmp = Object::cast_to<treeGenNode>(p_object);
+    if(tmp)
+    {
+        
+        return true;
+    }
+    return false;
+}
+
+void treeGenNodeInspectorProperties::parse_group(Object *p_object, const String &p_group)
+{
+    print_line("Parsing Group");
+    print_line(p_group);
 }

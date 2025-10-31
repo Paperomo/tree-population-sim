@@ -5,6 +5,17 @@
 #include "scene/gui/dialogs.h"
 class EditorSelection;
 class Callable;
+//class treeGenNode;
+
+class treeGenNodeInspectorProperties: public EditorInspectorPlugin
+{
+    GDCLASS(treeGenNodeInspectorProperties, EditorInspectorPlugin);
+    public:
+    bool can_handle(Object *p_object) final;
+    void  parse_group (Object *p_object, const String &p_group);
+
+};
+
 class treeGenEditorPlugin : public EditorPlugin
 {
     GDCLASS(treeGenEditorPlugin, EditorPlugin)

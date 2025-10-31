@@ -11,6 +11,7 @@
 #include "servers/rendering_server.h"
 #include "core/config/engine.h"
 #include "core/variant/variant.h"
+
 //#include <vulkan/vulkan.h>
 namespace mel
 {
@@ -24,7 +25,8 @@ namespace mel
 
 class treeGenServerServerInteractions;
 
-class treeGenServer: public Object {
+class treeGenServer: public Object
+{
     GDCLASS(treeGenServer, Object);
     //vkInstance;
     static treeGenServer* singleton;

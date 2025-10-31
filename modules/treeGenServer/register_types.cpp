@@ -3,7 +3,7 @@
 #include "core/object/class_db.h"
 #include "core/os/os.h"
 #include "core/config/engine.h"
-
+#include "editor/inspector/editor_inspector.h"
 #include "treeGenServer.h"
 #include "treeGenServerServerInteractions.h"
 #include "treeGenNode.h"
@@ -35,6 +35,8 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
             break;
         case MODULE_INITIALIZATION_LEVEL_EDITOR:
             EditorPlugins::add_by_type<treeGenEditorPlugin>();
+            //EditorInspector::add_inspector_plugin(memnew(treeGenNodeInspectorProperties));
+            //EditorPlugins::add_by_type<treeGenNodeInspectorProperties>();
             break;
         default:
             break;
@@ -52,7 +54,7 @@ void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level)
 {
     switch(p_level)
     {
-        case MODULE_INITIALIZATION_LEVEL_CORE:
+        case MODULE_INITIALIZATION_LEVEL_SERVERS:
             {//nameless scope just to facilitate working inside a switch case since switch cases dont allow defining stuff since they are jump tables which is understandable.
                 if (tree_Gen_Server)
                 {
@@ -60,10 +62,11 @@ void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level)
                     Engine::get_singleton()->remove_singleton("treeTestServer");
                     memdelete(tree_Gen_Server);
                     tree_Gen_Server=nullptr;
+                    print_line("closing gracefully");
                 }
             }
             break;
-        case MODULE_INITIALIZATION_LEVEL_SERVERS:
+        case MODULE_INITIALIZATION_LEVEL_CORE:
             {
             }
             break;

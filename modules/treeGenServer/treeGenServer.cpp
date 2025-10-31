@@ -2,6 +2,7 @@
 #include "treeGenServerServerInteractions.h"
 #include "core/variant/dictionary.h"
 #include "core/os/os.h"
+//#include "tree_gen_api.h"
 treeGenServer *treeGenServer::singleton = NULL;
 //now we just need to store the data and figure out how to modify it.
 void treeGenServer::notification_methods() {
@@ -72,7 +73,8 @@ void treeGenServer::core_treegen_loop()
     if (Engine::get_singleton()->is_editor_hint())
     {
         //print_line("loop singleton");
-        
+        //double quack = duck::Arithmetic().Add(1,2);
+        //print_line(quack);
         singleton->counter++;
     }
     else
