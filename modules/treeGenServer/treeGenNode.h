@@ -31,7 +31,7 @@ class treeGenNode: public Node3D
         void _notification(int p_what);
         void _mesh_changed ();
         String get_me_ptr();
-    
+    public:
     treeGenNode();
     ~treeGenNode();
 

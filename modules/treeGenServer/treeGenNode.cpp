@@ -49,13 +49,15 @@ void treeGenNode::_bind_methods()
 
 void treeGenNode::_notification(int p_what)
 {
+    //check for ready, before moving the child
+    //the issue is figuring how it closes.
     switch(p_what)
     {
         case NOTIFICATION_ENTER_TREE:
         {
 
             //
-            print_line(vformat("Hi I am entering the tree %s %s", my_name,get_name()));
+            //[come back] print_line(vformat("Hi I am entering the tree %s %s", my_name,get_name()));
             ++count;
             if(count == 1)
             {
@@ -68,32 +70,32 @@ void treeGenNode::_notification(int p_what)
         break;
         case NOTIFICATION_POST_ENTER_TREE:
         {
-            print_line(vformat("Hi I have entered the tree %s %s", my_name,get_name()));
+            //[come back] print_line(vformat("Hi I have entered the tree %s %s", my_name,get_name()));
         }
         break;
         case NOTIFICATION_READY:
         {
-            print_line(vformat("Ready, %s %s", get_me_ptr(),get_name()));
+            //[come back] print_line(vformat("Ready, %s %s", get_me_ptr(),get_name()));
         }
         break;
         case NOTIFICATION_EDITOR_PRE_SAVE:
         {
-            print_line("hi i am saving");
+            //[come back] print_line("hi i am saving");
         }
         break;
         case NOTIFICATION_EDITOR_POST_SAVE:
         {
-            print_line("hi i have saving");
+            //[come back] print_line("hi i have saving");
         }
         break;
         case NOTIFICATION_SUSPENDED:
         {
-            print_line("hi NOTIFICATION_SUSPENDED");
+            //[come back] print_line("hi NOTIFICATION_SUSPENDED");
         }
         break;
         case NOTIFICATION_UNSUSPENDED:
         {
-            print_line("hi i have NOTIFICATION_UNSUSPENDED");
+            //[come back] print_line("hi i have NOTIFICATION_UNSUSPENDED");
         }
         break;
         default:
@@ -106,7 +108,7 @@ void treeGenNode::_notification(int p_what)
 
 void treeGenNode::_mesh_changed()
 {
-    print_line("hey there");
+    //[come back] print_line("hey there");
 }
 
 String treeGenNode::get_me_ptr()
@@ -119,16 +121,17 @@ treeGenNode::treeGenNode():count(0),my_mesh(),my_name()
 {
     std::string tmp_name=std::to_string(reinterpret_cast<uintptr_t>(this));
     my_name = String(tmp_name.c_str());
-    print_line(my_name);
-    print_line(vformat("My name is %s.", get_name()));
-    //print_line("hi created treegennode %s",);
+    //[come back] print_line(my_name);
+    //[come back] print_line(vformat("My name is %s.", get_name()));
+    //
+    print_line("hi created treegennode %s",my_name);
     //set_name("constructed");
     //my_mesh.set_name(get_name());
     if(my_mesh.get_parent()==nullptr)
     {
-        print_line("yeah check this?");
+        //[come back] print_line("yeah check this?");
         //my_mesh.set_name();
-        print_line(my_mesh.get_name());
+        //[come back] print_line(my_mesh.get_name());
     }
     //set_name()
     //my_mesh.set_name();
@@ -140,6 +143,6 @@ treeGenNode::treeGenNode():count(0),my_mesh(),my_name()
 
 treeGenNode::~treeGenNode()
 {
-    print_line(vformat("Destructing %s.", my_name));
+    //[come back] print_line(vformat("Destructing %s.", my_name));
     //so the issue lies not in destruction?
 }

@@ -68,7 +68,8 @@ treeGenServerServerInteractions::treeGenServerServerInteractions() :Node()
     }
     //for some reason all the singleton references I've seen do not check if one has been instantiated already? this seems not safe.
     singleton = this;
-    set_name("do_not_touch_this");
+    //[come back] set_name("do_not_touch_this");
+    
     set_process(true);
     set_process_mode(PROCESS_MODE_ALWAYS);
 }

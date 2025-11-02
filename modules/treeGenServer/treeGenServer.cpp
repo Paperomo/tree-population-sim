@@ -6,7 +6,7 @@
 treeGenServer *treeGenServer::singleton = NULL;
 //now we just need to store the data and figure out how to modify it.
 void treeGenServer::notification_methods() {
-    print_line("test");
+    //[come back] print_line("test");
 }
 void treeGenServer::thread_func(void *p_udata){
     //print_line(vformat("My name is %d.", (int)p_udata));

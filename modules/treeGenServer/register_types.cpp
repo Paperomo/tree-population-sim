@@ -14,12 +14,15 @@ static treeGenServer *tree_Gen_Server = NULL;
 
 void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
 {
+    //print_line("init is called");
     switch(p_level)
     {
         case MODULE_INITIALIZATION_LEVEL_CORE:
             break;
         case MODULE_INITIALIZATION_LEVEL_SERVERS:
             {
+                print_line("creating server");
+                //probably will do well with some os hints
                 tree_Gen_Server = memnew(treeGenServer);
                 tree_Gen_Server->init();
                 ClassDB::register_class<treeGenServer>();
@@ -52,17 +55,19 @@ void initialize_treeGenServer_module(ModuleInitializationLevel p_level)
 
 void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level)
 {
+    //print_line("uninit is called");
     switch(p_level)
     {
         case MODULE_INITIALIZATION_LEVEL_SERVERS:
             {//nameless scope just to facilitate working inside a switch case since switch cases dont allow defining stuff since they are jump tables which is understandable.
                 if (tree_Gen_Server)
                 {
+                    print_line("removing server");// what the fuck?
                     tree_Gen_Server->finish();
                     Engine::get_singleton()->remove_singleton("treeTestServer");
                     memdelete(tree_Gen_Server);
                     tree_Gen_Server=nullptr;
-                    print_line("closing gracefully");
+                    //[come back] print_line("closing gracefully");
                 }
             }
             break;
@@ -81,10 +86,6 @@ void uninitialize_treeGenServer_module(ModuleInitializationLevel p_level)
             break;
         default:
             break;
-    }
-    if (p_level != MODULE_INITIALIZATION_LEVEL_SERVERS)
-    {
-        return;
     }
     
 }

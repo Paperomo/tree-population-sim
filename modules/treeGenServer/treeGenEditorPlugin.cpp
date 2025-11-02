@@ -20,7 +20,7 @@ void treeGenEditorPlugin::_notification(int p_what) {
                 if(!test_control)
                 {
                     test_control = memnew(CheckBox);
-                    print_line("count test_controls");
+                    //[come back] print_line("count test_controls");
                 }
                     
                 add_control_to_container(CONTAINER_SPATIAL_EDITOR_SIDE_LEFT,test_control);
@@ -69,15 +69,21 @@ void treeGenEditorPlugin::edit(Object *p_object)
     treeGenNode* tmp = Object::cast_to<treeGenNode>(p_object);
         if(selectionHandle->is_selected(Object::cast_to<Node>(p_object)))
         {
-            if(tmp) print_line("edited");
-            else print_line("un_edited?");
+            if(tmp)
+            {
+                //[come back] print_line("edited");
+            }
+            else
+            {
+                //[come back] print_line("un_edited?");
+            }
         }
     //check until unselected?
 }
 
 bool treeGenEditorPlugin::handles(Object *p_object) const
 {
-    print_line("prompted Handles in tree Gen editor plugin");
+    //[come back] print_line("prompted Handles in tree Gen editor plugin");
     treeGenNode* tmp = Object::cast_to<treeGenNode>(p_object);
     if(tmp)
     {
@@ -108,12 +114,12 @@ void treeGenEditorPlugin::edited_scene_changed()
 
 void treeGenEditorPlugin::selected_notify()
 {
-    print_line("jeeeeeeesus");
+    //[come back] print_line("jeeeeeeesus");
 }
 
 treeGenEditorPlugin::treeGenEditorPlugin()
 {
-    print_line("constructed treeGenEditorPlugin");
+    //[come back] print_line("constructed treeGenEditorPlugin");
     auto tmp = EditorPlugin::get_editor_interface();
     selectionHandle = tmp->get_selection();
     if(!selectionHandle->is_connected("selection_changed",callable_mp(this,&treeGenEditorPlugin::_editor_has_selected)))
@@ -125,7 +131,7 @@ treeGenEditorPlugin::treeGenEditorPlugin()
 treeGenEditorPlugin::~treeGenEditorPlugin()
 {
     //not disconnecting for now
-    print_line("destroying Tree Gen Editor Plugin");
+    //[come back] print_line("destroying Tree Gen Editor Plugin");
     if(test_control)
         memdelete(test_control);
     selectionHandle= nullptr;
@@ -146,6 +152,6 @@ bool treeGenNodeInspectorProperties::can_handle(Object *p_object)
 
 void treeGenNodeInspectorProperties::parse_group(Object *p_object, const String &p_group)
 {
-    print_line("Parsing Group");
-    print_line(p_group);
+    //[come back] print_line("Parsing Group");
+    //[come back] print_line(p_group);
 }
